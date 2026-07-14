@@ -1,60 +1,124 @@
 {{!< default}}
 
-<article class="{{post_class}}">
+{{!-- Reading progress bar --}}
+<div style="position:fixed;top:60px;left:0;z-index:99;height:2px;background:var(--blue);width:0%;transition:width 0.1s linear;" class="post-progress" aria-hidden="true"></div>
 
-    <header class="post-header">
-        {{#if primary_tag}}
-            <a href="{{primary_tag.url}}" class="post-tag">{{primary_tag.name}}</a>
-        {{/if}}
-        <h1>{{title}}</h1>
-        {{#if custom_excerpt}}
-            <p class="post-excerpt">{{custom_excerpt}}</p>
-        {{/if}}
+{{#post}}
+{{!-- POST HEADER --}}
+<header class="post-header" aria-labelledby="post-title">
+  <div class="post-header__inner">
 
-        <div class="post-meta-row">
-            {{#foreach authors}}
-                <img class="author-avatar" src="{{#if profile_image}}{{profile_image}}{{else}}{{asset "images/default-avatar.png"}}{{/if}}" alt="{{name}}">
-            {{/foreach}}
-            <div>
-                <div style="color: var(--fi-slate-900); font-weight: 600;">{{primary_author.name}}</div>
-                <div>{{date published_at format="MMMM D, YYYY"}} &middot; {{reading_time}}</div>
-            </div>
-        </div>
-    </header>
+    <a class="post-header__back" href="{{@site.url}}">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M10 7H2M5 3L1 7l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      All articles
+    </a>
 
-    {{#if feature_image}}
-        <div class="post-feature-image">
-            <img src="{{img_url feature_image size="l"}}" alt="{{title}}">
-        </div>
+    <div class="post-header__cats">
+      {{#foreach tags limit="3"}}
+        <a class="card__cat cat-blue" href="{{url}}">{{name}}</a>
+      {{/foreach}}
+      <span class="ai-chip">
+        <svg width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true"><circle cx="4.5" cy="4.5" r="3.5" stroke="currentColor" stroke-width="1"/><path d="M4.5 2.5v2l1 1" stroke="currentColor" stroke-width=".8" stroke-linecap="round"/></svg>
+        AI-generated
+      </span>
+    </div>
+
+    <h1 id="post-title">{{title}}</h1>
+
+    {{#if custom_excerpt}}
+      <p style="font-size:18px;color:var(--ink-2);line-height:1.65;margin:14px 0 20px;max-width:640px;">{{custom_excerpt}}</p>
     {{/if}}
 
-    {{!--
-        .post-content is intentionally a fixed, narrow measure (760px) for
-        long-form prose legibility. Interactive tool embeds break out of
-        this column via .tool-embed, which is full-wide and responsive —
-        see assets/css/screen.css. To embed a Streamlit tool from the
-        Ghost editor, add an HTML card containing:
+    <div class="post-header__meta">
+      <span>{{reading_time}}</span>
+      <span class="card__meta-dot"></span>
+      <span>{{date published_at format="MMMM D, YYYY"}}</span>
+      {{#if updated_at}}
+        <span class="card__meta-dot"></span>
+        <span>Updated {{date updated_at format="MMM D, YYYY"}}</span>
+      {{/if}}
+    </div>
 
-        <div class="tool-embed">
-          <div class="tool-embed-frame">
-            <iframe src="https://tools.fastenerinsight.com/torque-converter/?embed=true"
-                    loading="lazy" title="Torque Converter"></iframe>
-          </div>
-          <p class="tool-embed-caption">Interactive tool &middot; opens in this page, no login required.</p>
-        </div>
-    --}}
-    <section class="post-content">
-        {{content}}
-    </section>
+  </div>
+</header>
 
-    <footer class="post-content" style="padding-top: 0; margin-top: -24px;">
-        <div style="border-top: 1px solid var(--fi-border); padding-top: 28px; display: flex; gap: 16px; align-items: center;">
-            <img class="author-avatar" src="{{#if primary_author.profile_image}}{{primary_author.profile_image}}{{else}}{{asset "images/default-avatar.png"}}{{/if}}" alt="{{primary_author.name}}">
-            <div>
-                <div style="font-weight: 600;">Written by {{primary_author.name}}</div>
-                <div style="font-size: 14px; color: var(--fi-text-muted);">{{primary_author.bio}}</div>
+{{!-- FEATURE IMAGE --}}
+{{#if feature_image}}
+<div class="post-feature-image">
+  <img src="{{feature_image}}" alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}" loading="eager">
+</div>
+{{/if}}
+
+{{!-- POST BODY --}}
+<main class="post-content" id="post-content">
+  {{content}}
+
+  {{!-- Post tags --}}
+  {{#if tags}}
+  <div class="post-tags">
+    <span class="post-tags__label">Topics</span>
+    {{#foreach tags}}
+      <a class="post-tag-link" href="{{url}}">#{{name}}</a>
+    {{/foreach}}
+  </div>
+  {{/if}}
+
+</main>
+
+{{!-- RELATED POSTS --}}
+{{#get "posts" limit="3" filter="tags:[{{primary_tag.slug}}]+id:-{{id}}" as |related|}}
+  {{#if related}}
+  <section class="related-posts" aria-labelledby="related-heading">
+    <div class="container">
+      <p class="section-eyebrow">Related articles</p>
+      <h2 id="related-heading">More on {{primary_tag.name}}</h2>
+      <div class="related-grid">
+        {{#foreach related}}
+          <article class="card" tabindex="0">
+            <div class="card__accent"></div>
+            <div class="card__body">
+              {{#foreach tags limit="1"}}
+                <span class="card__cat cat-blue">{{name}}</span>
+              {{/foreach}}
+              <h4><a href="{{url}}">{{title}}</a></h4>
+              <p class="card__excerpt">{{excerpt words="22"}}</p>
+              <div class="card__meta">
+                <span class="ai-chip">AI-generated</span>
+                <span class="card__meta-dot"></span>
+                <span>{{reading_time}}</span>
+              </div>
             </div>
-        </div>
-    </footer>
+          </article>
+        {{/foreach}}
+      </div>
+    </div>
+  </section>
+  {{/if}}
+{{/get}}
+{{/post}}
 
-</article>
+{{!-- NEWSLETTER CTA --}}
+<section class="section" style="background:var(--paper-2);border-top:1px solid var(--border);">
+  <div class="container--narrow">
+    <div class="newsletter">
+      <div>
+        <p class="section-eyebrow section-eyebrow--light">Enjoyed this article?</p>
+        <h2>Get weekly fastener intelligence</h2>
+        <p>New standards summaries, practice guides, and industry news — one email per week. No filler.</p>
+      </div>
+      <div class="newsletter__form">
+        <input class="newsletter__input" type="email" placeholder="your@email.com" id="post-newsletter-email">
+        <button class="newsletter__submit" onclick="ghostPortalSignupPost(event)">Subscribe — it's free</button>
+        <span class="newsletter__note">No spam. Unsubscribe any time.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+function ghostPortalSignupPost(e) {
+  e.preventDefault();
+  var email = document.getElementById('post-newsletter-email').value;
+  window.location.href = '#/portal/signup' + (email ? '?email=' + encodeURIComponent(email) : '');
+}
+</script>
