@@ -1,0 +1,25 @@
+{{!< default}}
+
+{{> hero}}
+
+<section class="section">
+    <div class="section-header">
+        <h2>Latest Articles</h2>
+        <a href="/tag/standards/" class="section-link">View all &rarr;</a>
+    </div>
+    <div class="post-grid">
+        {{#foreach posts}}
+            {{> article-card}}
+        {{/foreach}}
+    </div>
+
+    {{#if pagination.next}}
+        <div style="text-align:center; margin-top: 40px;">
+            <a href="{{page_url pagination.next}}" class="btn btn-secondary" style="color: var(--fi-slate-900); border-color: var(--fi-slate-300);">
+                Load more articles
+            </a>
+        </div>
+    {{/if}}
+</section>
+
+{{> tools-section}}

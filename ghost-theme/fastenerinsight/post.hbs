@@ -1,0 +1,60 @@
+{{!< default}}
+
+<article class="{{post_class}}">
+
+    <header class="post-header">
+        {{#if primary_tag}}
+            <a href="{{primary_tag.url}}" class="post-tag">{{primary_tag.name}}</a>
+        {{/if}}
+        <h1>{{title}}</h1>
+        {{#if custom_excerpt}}
+            <p class="post-excerpt">{{custom_excerpt}}</p>
+        {{/if}}
+
+        <div class="post-meta-row">
+            {{#foreach authors}}
+                <img class="author-avatar" src="{{#if profile_image}}{{profile_image}}{{else}}{{asset "images/default-avatar.png"}}{{/if}}" alt="{{name}}">
+            {{/foreach}}
+            <div>
+                <div style="color: var(--fi-slate-900); font-weight: 600;">{{primary_author.name}}</div>
+                <div>{{date published_at format="MMMM D, YYYY"}} &middot; {{reading_time}}</div>
+            </div>
+        </div>
+    </header>
+
+    {{#if feature_image}}
+        <div class="post-feature-image">
+            <img src="{{img_url feature_image size="l"}}" alt="{{title}}">
+        </div>
+    {{/if}}
+
+    {{!--
+        .post-content is intentionally a fixed, narrow measure (760px) for
+        long-form prose legibility. Interactive tool embeds break out of
+        this column via .tool-embed, which is full-wide and responsive —
+        see assets/css/screen.css. To embed a Streamlit tool from the
+        Ghost editor, add an HTML card containing:
+
+        <div class="tool-embed">
+          <div class="tool-embed-frame">
+            <iframe src="https://tools.fastenerinsight.com/torque-converter/?embed=true"
+                    loading="lazy" title="Torque Converter"></iframe>
+          </div>
+          <p class="tool-embed-caption">Interactive tool &middot; opens in this page, no login required.</p>
+        </div>
+    --}}
+    <section class="post-content">
+        {{content}}
+    </section>
+
+    <footer class="post-content" style="padding-top: 0; margin-top: -24px;">
+        <div style="border-top: 1px solid var(--fi-border); padding-top: 28px; display: flex; gap: 16px; align-items: center;">
+            <img class="author-avatar" src="{{#if primary_author.profile_image}}{{primary_author.profile_image}}{{else}}{{asset "images/default-avatar.png"}}{{/if}}" alt="{{primary_author.name}}">
+            <div>
+                <div style="font-weight: 600;">Written by {{primary_author.name}}</div>
+                <div style="font-size: 14px; color: var(--fi-text-muted);">{{primary_author.bio}}</div>
+            </div>
+        </div>
+    </footer>
+
+</article>

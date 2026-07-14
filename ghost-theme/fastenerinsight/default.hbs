@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="{{@site.locale}}">
+<head>
+    <meta charset="utf-8">
+    <title>{{meta_title}}</title>
+    <meta name="description" content="{{meta_description}}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="{{asset "favicon.ico"}}">
+    <link rel="stylesheet" type="text/css" href="{{asset "built/screen.css"}}">
+
+    {{!-- SEO / social: Ghost's default helper handles OG + Twitter + canonical + schema --}}
+    {{ghost_head}}
+</head>
+<body class="{{body_class}}">
+
+<header class="site-header">
+    <div class="site-header-inner">
+        <a href="{{@site.url}}" class="site-logo">Fastener<span>Insight</span></a>
+        <nav class="site-nav">
+            <a href="/tag/standards/">Standards</a>
+            <a href="/tag/procurement/">Procurement</a>
+            <a href="/tools/">Tools</a>
+            <a href="/about/">About</a>
+        </nav>
+    </div>
+</header>
+
+<main role="main">
+    {{{body}}}
+</main>
+
+<footer class="site-footer">
+    <div class="container">
+        <div>
+            <div class="site-logo" style="margin-bottom: 10px;">Fastener<span>Insight</span></div>
+            <p style="font-size: 14px; max-width: 360px; color: var(--fi-slate-300);">
+                Engineering specifications meet procurement reality — ISO, DIN, ASME &amp; AS
+                fastener standards, explained for the people who have to buy, spec, and plan
+                around them.
+            </p>
+        </div>
+        <div>
+            <a href="/tools/">Interactive Tools</a><br>
+            <a href="/about/">About the Author</a><br>
+            <a href="{{@site.url}}/rss/">RSS</a>
+        </div>
+        <div class="footer-meta">
+            &copy; {{date format="YYYY"}} FastenerInsight. All specifications referenced remain
+            property of their respective standards bodies (ISO, DIN, ASME, AS).
+        </div>
+    </div>
+</footer>
+
+{{ghost_foot}}
+</body>
+</html>
