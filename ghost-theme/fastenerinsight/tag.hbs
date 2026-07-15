@@ -1,0 +1,64 @@
+{{!< default}}
+
+<main>
+  {{#tag}}
+  <section class="section" style="padding-bottom:0;">
+    <div class="container">
+      <div class="section__header" style="text-align:left;">
+        <p class="section-eyebrow">Tag</p>
+        <h1>{{name}}</h1>
+        {{#if description}}
+          <p>{{description}}</p>
+        {{/if}}
+      </div>
+    </div>
+  </section>
+  {{/tag}}
+
+  <section class="section" id="articles">
+    <div class="container">
+      <div class="articles-grid" id="articles-grid">
+        {{#foreach posts limit="50"}}
+          {{#if @first}}
+            <article class="card card--featured" data-cat="{{tags.[0].slug}}" tabindex="0">
+              <div class="card__accent"></div>
+              <div class="card__body">
+                {{#foreach tags limit="1"}}
+                  <span class="card__cat cat-blue">{{name}}</span>
+                {{/foreach}}
+                <h3><a href="{{url}}">{{title}}</a></h3>
+                <p class="card__excerpt">{{excerpt words="40"}}</p>
+                <div class="card__meta">
+                  <span class="ai-chip">AI-generated</span>
+                  <span class="card__meta-dot"></span>
+                  <span>{{reading_time}}</span>
+                  <span class="card__meta-dot"></span>
+                  <span>{{date published_at format="MMM YYYY"}}</span>
+                </div>
+                <a class="card__read-more" href="{{url}}">Read article →</a>
+              </div>
+            </article>
+          {{else}}
+            <article class="card" data-cat="{{tags.[0].slug}}" tabindex="0">
+              <div class="card__accent"></div>
+              <div class="card__body">
+                {{#foreach tags limit="1"}}
+                  <span class="card__cat cat-blue">{{name}}</span>
+                {{/foreach}}
+                <h4><a href="{{url}}">{{title}}</a></h4>
+                <p class="card__excerpt">{{excerpt words="28"}}</p>
+                <div class="card__meta">
+                  <span class="ai-chip">AI-generated</span>
+                  <span class="card__meta-dot"></span>
+                  <span>{{reading_time}}</span>
+                  <span class="card__meta-dot"></span>
+                  <span>{{date published_at format="MMM YYYY"}}</span>
+                </div>
+              </div>
+            </article>
+          {{/if}}
+        {{/foreach}}
+      </div>
+    </div>
+  </section>
+</main>
