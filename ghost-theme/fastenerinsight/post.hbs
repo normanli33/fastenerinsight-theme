@@ -50,7 +50,7 @@
 {{/if}}
 
 {{!-- POST BODY --}}
-<main class="post-content" id="post-content">
+<article class="post-content" id="post-content">
   {{content}}
 
   {{!-- Post tags --}}
@@ -63,7 +63,7 @@
   </div>
   {{/if}}
 
-</main>
+</article>
 
 {{!-- RELATED POSTS --}}
 {{#get "posts" limit="3" filter="tags:[{{primary_tag.slug}}]+id:-{{id}}" as |related|}}

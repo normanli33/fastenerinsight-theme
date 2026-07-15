@@ -1,7 +1,5 @@
 # EN Stainless Steel for Fasteners: The Complete European Reference Guide
 
-*Published on blog.fastenerinsight.com*
-
 If you work with European fastener specifications, you've seen the EN material numbers — 1.4301, 1.4401, 1.4462 — and you know they map to familiar AISI grades like 304 and 316. But the relationship between the EN material designation system, the ISO 3506 property classes (A2-70, A4-80, etc.), and the actual mechanical and corrosion properties of each grade is where things get slippery.
 
 This reference sheet is designed to be RFQ-ready, QA-document-ready, and supplier-spec-ready. Keep it handy for every stainless steel fastener inquiry that crosses your desk.

@@ -1,7 +1,5 @@
 # A2, A4 or 303Cu? Choosing the Right Stainless Steel for Your Fasteners
 
-*Published on blog.fastenerinsight.com*
-
 Ask for "stainless steel bolts" and you'll usually be asked one question back: A2 or A4? These two grades cover the vast majority of stainless fastener demand, yet the differences between them — and the reason a third grade, 303Cu, quietly dominates the turned-parts world — are often misunderstood. All three belong to the austenitic family, which means they share the same basic crystal structure, are non-magnetic in the annealed condition, and can't be hardened by heat treatment. Where they part ways is chemistry, and that chemistry decides whether your fastener survives ten years on a coastal handrail or starts weeping rust stains within the first season.
 
 ## A2 (304): The Workhorse
