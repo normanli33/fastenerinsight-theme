@@ -1,0 +1,119 @@
+<!-- FastenerInsight — Torque Calculator
+     Paste this entire file into an HTML card on a Ghost PAGE with slug: torque-calculator
+     Self-contained: no external dependencies. Inherits the theme's font. -->
+<div class="fi-tool" id="fi-torque">
+<style>
+  .fi-tool{--fi-ink:#1d2530;--fi-mut:#5b6672;--fi-line:#d7dce2;--fi-bg:#f4f6f8;--fi-acc:#24506e;--fi-acc2:#0e2a40;
+    font-family:inherit;color:var(--fi-ink);max-width:720px;margin:0 auto}
+  .fi-tool *{box-sizing:border-box}
+  .fi-tool .fi-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px;margin:18px 0}
+  @media(max-width:560px){.fi-tool .fi-grid{grid-template-columns:1fr}}
+  .fi-tool label{display:block;font-size:.8rem;font-weight:600;letter-spacing:.02em;color:var(--fi-mut);margin-bottom:5px;text-transform:uppercase}
+  .fi-tool select,.fi-tool input[type=number]{width:100%;padding:9px 10px;border:1px solid var(--fi-line);border-radius:6px;font:inherit;font-size:.95rem;background:#fff;color:var(--fi-ink)}
+  .fi-tool select:focus,.fi-tool input:focus{outline:2px solid var(--fi-acc);outline-offset:1px}
+  .fi-tool .fi-units{display:inline-flex;border:1px solid var(--fi-line);border-radius:6px;overflow:hidden;margin-bottom:6px}
+  .fi-tool .fi-units button{font:inherit;font-size:.85rem;font-weight:600;padding:7px 16px;border:0;background:#fff;color:var(--fi-mut);cursor:pointer}
+  .fi-tool .fi-units button[aria-pressed=true]{background:var(--fi-acc);color:#fff}
+  .fi-tool .fi-range{display:flex;align-items:center;gap:10px}
+  .fi-tool input[type=range]{flex:1;accent-color:var(--fi-acc)}
+  .fi-tool .fi-pct{font-variant-numeric:tabular-nums;min-width:3.2em;text-align:right;font-weight:600}
+  /* Results: engineering-drawing title block */
+  .fi-tool .fi-block{border:1.5px solid var(--fi-acc2);border-radius:4px;margin-top:22px;overflow:hidden}
+  .fi-tool .fi-block-head{background:var(--fi-acc2);color:#fff;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:7px 12px}
+  .fi-tool .fi-block-grid{display:grid;grid-template-columns:1fr 1fr 1fr}
+  @media(max-width:560px){.fi-tool .fi-block-grid{grid-template-columns:1fr}}
+  .fi-tool .fi-cell{padding:12px 14px;border-top:1px solid var(--fi-line)}
+  .fi-tool .fi-cell+.fi-cell{border-left:1px solid var(--fi-line)}
+  @media(max-width:560px){.fi-tool .fi-cell+.fi-cell{border-left:0}}
+  .fi-tool .fi-cell small{display:block;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--fi-mut);margin-bottom:3px}
+  .fi-tool .fi-val{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:1.35rem;font-weight:600;color:var(--fi-acc2)}
+  .fi-tool .fi-val em{font-style:normal;font-size:.85rem;color:var(--fi-mut);margin-left:3px}
+  .fi-tool .fi-note{font-size:.82rem;color:var(--fi-mut);margin-top:14px;line-height:1.5}
+  .fi-tool .fi-flag{background:var(--fi-bg);border-left:3px solid var(--fi-acc);padding:8px 12px;font-size:.85rem;margin-top:12px;display:none}
+</style>
+
+<div class="fi-units" role="group" aria-label="Unit system">
+  <button type="button" id="fi-t-metric" aria-pressed="true">Metric</button>
+  <button type="button" id="fi-t-imperial" aria-pressed="false">Imperial (UNC)</button>
+</div>
+
+<div class="fi-grid">
+  <div><label for="fi-t-size">Bolt size</label><select id="fi-t-size"></select></div>
+  <div><label for="fi-t-grade">Property class / grade</label><select id="fi-t-grade"></select></div>
+  <div><label for="fi-t-k">K-factor (nut factor)</label>
+    <select id="fi-t-k">
+      <option value="0.20" selected>Plain steel, dry — 0.20</option>
+      <option value="0.22">Zinc electroplated, dry — 0.22</option>
+      <option value="0.13">Zinc flake w/ integral lubricant — 0.13</option>
+      <option value="0.12">Oiled / waxed threads — 0.12</option>
+      <option value="custom">Custom…</option>
+    </select>
+    <input type="number" id="fi-t-kcustom" step="0.01" min="0.05" max="0.40" value="0.20" style="display:none;margin-top:6px" aria-label="Custom K-factor">
+  </div>
+  <div><label for="fi-t-pct">Target preload (% of proof load)</label>
+    <div class="fi-range"><input type="range" id="fi-t-pct" min="50" max="90" value="75" step="1"><span class="fi-pct" id="fi-t-pctout">75%</span></div>
+  </div>
+</div>
+
+<div class="fi-block" aria-live="polite">
+  <div class="fi-block-head">Calculated values — T = K × F × d</div>
+  <div class="fi-block-grid">
+    <div class="fi-cell"><small>Tightening torque</small><div class="fi-val" id="fi-t-nm">—</div></div>
+    <div class="fi-cell"><small>Torque (alt. units)</small><div class="fi-val" id="fi-t-alt">—</div></div>
+    <div class="fi-cell"><small>Target clamp load F</small><div class="fi-val" id="fi-t-clamp">—</div></div>
+  </div>
+</div>
+
+<div class="fi-flag" id="fi-t-flag"></div>
+
+<p class="fi-note">Uses the short-form relation T&nbsp;=&nbsp;K·F·d with F&nbsp;=&nbsp;(preload&nbsp;%)&nbsp;×&nbsp;proof&nbsp;stress&nbsp;×&nbsp;tensile&nbsp;stress&nbsp;area. Proof stresses per ISO&nbsp;898-1 (metric) and SAE&nbsp;J429 (imperial). K-factor dominates the result and varies with coating, lubrication and surface condition — always validate against the joint design, fastener manufacturer data, or a calibrated tightening trial. Guidance only, not a substitute for engineering judgement.</p>
+
+<script>
+(function(){
+  var M=[["M3",3,5.03],["M4",4,8.78],["M5",5,14.2],["M6",6,20.1],["M8",8,36.6],["M10",10,58.0],["M12",12,84.3],["M14",14,115],["M16",16,157],["M18",18,192],["M20",20,245],["M22",22,303],["M24",24,353],["M27",27,459],["M30",30,561],["M36",36,817]];
+  var MC=[["4.6",225],["4.8",310],["5.6",280],["5.8",380],["6.8",440],["8.8",580],["9.8",650],["10.9",830],["12.9",970]]; // proof stress MPa; 8.8 handled >M16 below
+  var I=[["1/4\"-20 UNC",0.250,0.0318],["5/16\"-18 UNC",0.3125,0.0524],["3/8\"-16 UNC",0.375,0.0775],["7/16\"-14 UNC",0.4375,0.1063],["1/2\"-13 UNC",0.500,0.1419],["9/16\"-12 UNC",0.5625,0.182],["5/8\"-11 UNC",0.625,0.226],["3/4\"-10 UNC",0.750,0.334],["7/8\"-9 UNC",0.875,0.462],["1\"-8 UNC",1.000,0.606]];
+  var IG=[["SAE Grade 2",55],["SAE Grade 5",85],["SAE Grade 8",120]]; // proof ksi; Grade 2 >3/4" handled below
+  var unit="m";
+  var $=function(id){return document.getElementById(id)};
+  var size=$("fi-t-size"),grade=$("fi-t-grade"),ksel=$("fi-t-k"),kcus=$("fi-t-kcustom"),
+      pct=$("fi-t-pct"),pctout=$("fi-t-pctout"),flag=$("fi-t-flag");
+
+  function fill(sel,arr){sel.innerHTML="";arr.forEach(function(r,i){var o=document.createElement("option");o.value=i;o.textContent=r[0];sel.appendChild(o)});}
+  function setUnit(u){unit=u;$("fi-t-metric").setAttribute("aria-pressed",u==="m");$("fi-t-imperial").setAttribute("aria-pressed",u==="i");
+    if(u==="m"){fill(size,M);size.value=7;fill(grade,MC);grade.value=5;}else{fill(size,I);size.value=4;fill(grade,IG);grade.value=1;}calc();}
+
+  function kval(){return ksel.value==="custom"?parseFloat(kcus.value)||0.2:parseFloat(ksel.value)}
+
+  function calc(){
+    var K=kval(),p=pct.value/100,msg="";
+    pctout.textContent=pct.value+"%";
+    if(unit==="m"){
+      var s=M[size.value],g=MC[grade.value],Sp=g[1];
+      if(g[0]==="8.8"&&s[1]>16){Sp=600;msg="Class 8.8 above M16 uses the higher proof stress (600 MPa) per ISO 898-1.";}
+      var F=p*Sp*s[2];                 // N
+      var T=K*F*s[1]/1000;             // N·m
+      $("fi-t-nm").innerHTML=fmt(T)+"<em>N·m</em>";
+      $("fi-t-alt").innerHTML=fmt(T*0.7376)+"<em>lbf·ft</em>";
+      $("fi-t-clamp").innerHTML=fmt(F/1000)+"<em>kN</em>";
+    }else{
+      var s=I[size.value],g=IG[grade.value],Sp=g[1];
+      if(g[0]==="SAE Grade 2"&&s[1]>0.75){Sp=33;msg="SAE Grade 2 above 3/4\" drops to 33 ksi proof stress per J429.";}
+      var F=p*Sp*1000*s[2];            // lbf
+      var T=K*F*s[1]/12;               // lbf·ft
+      $("fi-t-nm").innerHTML=fmt(T)+"<em>lbf·ft</em>";
+      $("fi-t-alt").innerHTML=fmt(T*1.3558)+"<em>N·m</em>";
+      $("fi-t-clamp").innerHTML=fmt(F)+"<em>lbf</em>";
+    }
+    flag.style.display=msg?"block":"none";flag.textContent=msg;
+  }
+  function fmt(x){return x>=100?Math.round(x).toLocaleString():x>=10?x.toFixed(1):x.toFixed(2)}
+
+  $("fi-t-metric").addEventListener("click",function(){setUnit("m")});
+  $("fi-t-imperial").addEventListener("click",function(){setUnit("i")});
+  ksel.addEventListener("change",function(){kcus.style.display=ksel.value==="custom"?"block":"none";calc()});
+  [size,grade,kcus,pct].forEach(function(el){el.addEventListener("input",calc)});
+  setUnit("m");
+})();
+</script>
+</div>

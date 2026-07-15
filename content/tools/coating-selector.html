@@ -1,0 +1,114 @@
+<!-- FastenerInsight — Coating Selector
+     Paste this entire file into an HTML card on a Ghost PAGE with slug: coating-selector
+     Self-contained: no external dependencies. -->
+<div class="fi-tool" id="fi-coat">
+<style>
+  #fi-coat{--fi-ink:#1d2530;--fi-mut:#5b6672;--fi-line:#d7dce2;--fi-bg:#f4f6f8;--fi-acc:#24506e;--fi-acc2:#0e2a40;
+    font-family:inherit;color:var(--fi-ink);max-width:720px;margin:0 auto}
+  #fi-coat *{box-sizing:border-box}
+  #fi-coat fieldset{border:0;padding:0;margin:0 0 20px}
+  #fi-coat legend{font-size:.8rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--fi-mut);margin-bottom:8px;padding:0}
+  #fi-coat .fi-opts{display:flex;flex-wrap:wrap;gap:8px}
+  #fi-coat .fi-opts label{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--fi-line);border-radius:6px;padding:8px 13px;cursor:pointer;font-size:.92rem;background:#fff}
+  #fi-coat .fi-opts input{accent-color:var(--fi-acc);margin:0}
+  #fi-coat .fi-opts label:has(input:checked){border-color:var(--fi-acc);background:var(--fi-bg);font-weight:600}
+  #fi-coat .fi-opts input:focus-visible{outline:2px solid var(--fi-acc);outline-offset:2px}
+  /* Results: drawing title block */
+  #fi-coat .fi-block{border:1.5px solid var(--fi-acc2);border-radius:4px;margin-top:6px;overflow:hidden}
+  #fi-coat .fi-block-head{background:var(--fi-acc2);color:#fff;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:7px 12px}
+  #fi-coat .fi-rec{padding:13px 14px;border-top:1px solid var(--fi-line);display:grid;grid-template-columns:2.1em 1fr;gap:4px 12px}
+  #fi-coat .fi-rank{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:1.25rem;font-weight:700;color:var(--fi-acc2)}
+  #fi-coat .fi-rec h4{margin:0;font-size:1rem}
+  #fi-coat .fi-rec h4 span{font-weight:400;color:var(--fi-mut);font-size:.85rem;margin-left:6px}
+  #fi-coat .fi-rec p{grid-column:2;margin:2px 0 0;font-size:.87rem;color:var(--fi-mut);line-height:1.5}
+  #fi-coat .fi-warn{background:var(--fi-bg);border-left:3px solid var(--fi-acc);padding:9px 12px;font-size:.85rem;margin-top:14px;line-height:1.5}
+  #fi-coat .fi-note{font-size:.82rem;color:var(--fi-mut);margin-top:14px;line-height:1.5}
+</style>
+
+<form id="fi-c-form">
+  <fieldset>
+    <legend>1 · Service environment</legend>
+    <div class="fi-opts">
+      <label><input type="radio" name="env" value="indoor" checked> Indoor / dry</label>
+      <label><input type="radio" name="env" value="outdoor"> Outdoor, general</label>
+      <label><input type="radio" name="env" value="marine"> Marine / coastal</label>
+      <label><input type="radio" name="env" value="chemical"> Chemical / industrial</label>
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend>2 · Fastener strength</legend>
+    <div class="fi-opts">
+      <label><input type="radio" name="str" value="lo" checked> Up to class 9.8 / Grade 5</label>
+      <label><input type="radio" name="str" value="hi"> Class 10.9, 12.9 / Grade 8+ (≥1000 MPa)</label>
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend>3 · Required life to first maintenance</legend>
+    <div class="fi-opts">
+      <label><input type="radio" name="life" value="short"> Under 5 years</label>
+      <label><input type="radio" name="life" value="med" checked> 5–15 years</label>
+      <label><input type="radio" name="life" value="long"> Over 15 years</label>
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend>4 · Thread fit</legend>
+    <div class="fi-opts">
+      <label><input type="radio" name="fit" value="std" checked> Standard nuts / small threads (≤ M10)</label>
+      <label><input type="radio" name="fit" value="flex"> Oversize-tapped nuts acceptable (M12+)</label>
+    </div>
+  </fieldset>
+</form>
+
+<div class="fi-block" aria-live="polite">
+  <div class="fi-block-head">Ranked recommendation</div>
+  <div id="fi-c-out"></div>
+</div>
+<div class="fi-warn" id="fi-c-warn" style="display:none"></div>
+
+<p class="fi-note">Ranking is indicative and assumes typical coating thicknesses and quality per the referenced standards. Corrosion performance depends heavily on coating thickness, sealants/topcoats, design details (crevices, dissimilar metals) and exposure specifics — confirm with salt-spray or field data for critical applications.</p>
+
+<script>
+(function(){
+  var C={
+    zn:  {name:"Zinc electroplate + Cr(III) passivate",std:"ISO 4042 (e.g. Fe/Zn8/Cn·T0)",
+          why:"Lowest cost, good appearance, fine for mild exposure. Thin coating (5–12 µm) limits outdoor life; electroplating carries hydrogen embrittlement risk on high-strength parts."},
+    znni:{name:"Zinc-nickel electroplate (12–15% Ni)",std:"ISO 4042 (ZnNi)",
+          why:"3–5× the corrosion life of plain zinc at similar thickness; standard in automotive. Still an electrolytic process — baking per ISO 4042 required above 1000 MPa."},
+    flake:{name:"Zinc flake, non-electrolytic",std:"ISO 10683 (Geomet, Delta-Protekt, Magni)",
+          why:"No hydrogen embrittlement risk, excellent salt-spray performance at 8–12 µm, and integral lubricant gives consistent K-factor. The default choice for class 10.9/12.9."},
+    hdg: {name:"Hot-dip galvanizing",std:"ISO 10684 / ASTM F2329 (fasteners), ISO 1461 (general)",
+          why:"Thick sacrificial layer (typ. 40–70 µm) gives the longest unmaintained outdoor life of the zinc systems. Requires oversize-tapped nuts and isn't suitable for small threads or classes above 8.8/10.9."},
+    mech:{name:"Mechanical galvanizing",std:"ASTM B695",
+          why:"Zinc applied by cold impact — no hydrogen embrittlement and thicker builds than electroplating. A good HDG alternative where thread fit or part size rules hot-dip out."},
+    ss:  {name:"Switch to stainless steel",std:"ISO 3506 A4-70/A4-80 · ASTM F593 (316)",
+          why:"Where chlorides or chemicals defeat zinc systems, corrosion-resistant base material beats any coating. Note galling risk and lower strength ceiling (~800 MPa for A4-80)."}
+  };
+  var ENV={indoor:{zn:5,znni:4,flake:3,hdg:1,mech:2,ss:1},
+           outdoor:{zn:2,znni:4,flake:5,hdg:5,mech:3,ss:3},
+           marine:{zn:0,znni:3,flake:4,hdg:4,mech:2,ss:6},
+           chemical:{zn:0,znni:3,flake:4,hdg:3,mech:2,ss:6}};
+  function pick(){
+    var f=document.getElementById("fi-c-form"),
+        env=f.env.value,str=f.str.value,life=f.life.value,fit=f.fit.value,
+        s={},warn=[];
+    for(var k in C)s[k]=ENV[env][k];
+    if(str==="hi"){s.zn-=5;s.znni-=2;s.hdg-=6;s.mech+=1;s.flake+=2;s.ss-=5;
+      warn.push("At ≥1000 MPa, hydrogen embrittlement governs: electroplating needs verified baking per ISO 4042, and hot-dip galvanizing is generally excluded. Zinc flake avoids the risk entirely.");}
+    if(life==="long"){s.hdg+=2;s.flake+=1;s.zn-=2;}
+    if(life==="short"){s.zn+=1;}
+    if(fit==="std"){s.hdg-=3;if(ENV[env].hdg>=4)warn.push("Hot-dip galvanizing needs nuts tapped oversize (ISO 10684) and is impractical below ~M10 — it was down-ranked for your thread-fit answer.");}
+    var ranked=Object.keys(s).sort(function(a,b){return s[b]-s[a]}).slice(0,3);
+    var out=document.getElementById("fi-c-out");out.innerHTML="";
+    ranked.forEach(function(k,i){
+      var d=document.createElement("div");d.className="fi-rec";
+      d.innerHTML='<div class="fi-rank">'+(i+1)+'</div><h4>'+C[k].name+'<span>'+C[k].std+'</span></h4><p>'+C[k].why+'</p>';
+      out.appendChild(d);
+    });
+    var w=document.getElementById("fi-c-warn");
+    w.style.display=warn.length?"block":"none";w.innerHTML=warn.join("<br><br>");
+  }
+  document.getElementById("fi-c-form").addEventListener("change",pick);
+  pick();
+})();
+</script>
+</div>

@@ -1,0 +1,64 @@
+<!-- FastenerInsight — Grade Comparison Table
+     Paste this entire file into an HTML card on a Ghost PAGE with slug: grade-comparison-table
+     Self-contained: no external dependencies. -->
+<div class="fi-tool" id="fi-grades">
+<style>
+  #fi-grades{--fi-ink:#1d2530;--fi-mut:#5b6672;--fi-line:#d7dce2;--fi-bg:#f4f6f8;--fi-acc:#24506e;--fi-acc2:#0e2a40;
+    font-family:inherit;color:var(--fi-ink)}
+  #fi-grades *{box-sizing:border-box}
+  #fi-grades .fi-filter{width:100%;max-width:340px;padding:9px 12px;border:1px solid var(--fi-line);border-radius:6px;font:inherit;font-size:.95rem;margin-bottom:14px}
+  #fi-grades .fi-filter:focus{outline:2px solid var(--fi-acc);outline-offset:1px}
+  #fi-grades .fi-wrap{overflow-x:auto;border:1.5px solid var(--fi-acc2);border-radius:4px}
+  #fi-grades table{border-collapse:collapse;width:100%;min-width:760px;font-size:.88rem}
+  #fi-grades thead th{background:var(--fi-acc2);color:#fff;text-align:left;padding:9px 12px;font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;font-weight:700;white-space:nowrap}
+  #fi-grades tbody td{padding:9px 12px;border-top:1px solid var(--fi-line);vertical-align:top}
+  #fi-grades tbody tr:nth-child(even){background:var(--fi-bg)}
+  #fi-grades td.fi-num{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+  #fi-grades td.fi-cls{font-weight:700;color:var(--fi-acc2);white-space:nowrap}
+  #fi-grades .fi-note{font-size:.82rem;color:var(--fi-mut);margin-top:14px;line-height:1.55}
+  #fi-grades .fi-empty{padding:16px;color:var(--fi-mut);display:none}
+</style>
+
+<input class="fi-filter" id="fi-g-filter" type="search" placeholder="Filter — try 8.8, Grade 5, A325…" aria-label="Filter table rows">
+
+<div class="fi-wrap">
+<table id="fi-g-table">
+  <thead><tr>
+    <th>Metric class<br>ISO 898-1</th><th>Tensile<br>(MPa / ksi)</th><th>Min. yield*<br>(MPa)</th>
+    <th>Nearest SAE<br>J429 grade</th><th>SAE tensile<br>(ksi)</th><th>Common ASTM<br>equivalents</th><th>Typical head<br>marking</th>
+  </tr></thead>
+  <tbody>
+    <tr><td class="fi-cls">4.6</td><td class="fi-num">400 / 58</td><td class="fi-num">240</td><td>Grade 1</td><td class="fi-num">60</td><td>A307 Grade A</td><td>4.6 (or unmarked)</td></tr>
+    <tr><td class="fi-cls">4.8</td><td class="fi-num">420 / 61</td><td class="fi-num">340†</td><td>†Grade 2</td><td class="fi-num">74</td><td>A307 Grade A (nearest)</td><td>4.8</td></tr>
+    <tr><td class="fi-cls">5.8</td><td class="fi-num">520 / 75</td><td class="fi-num">420†</td><td>Grade 2 (≤3/4")</td><td class="fi-num">74</td><td>—</td><td>5.8</td></tr>
+    <tr><td class="fi-cls">8.8</td><td class="fi-num">800–830 / 116–120</td><td class="fi-num">640–660</td><td>Grade 5</td><td class="fi-num">120</td><td>A449 · F3125 Gr. A325 (structural)</td><td>8.8 / 3 radial dashes (Gr. 5)</td></tr>
+    <tr><td class="fi-cls">9.8</td><td class="fi-num">900 / 130</td><td class="fi-num">720</td><td>between Gr. 5 and 8</td><td class="fi-num">—</td><td>—</td><td>9.8</td></tr>
+    <tr><td class="fi-cls">10.9</td><td class="fi-num">1040 / 151</td><td class="fi-num">940</td><td>Grade 8</td><td class="fi-num">150</td><td>A354 Gr. BD · F3125 Gr. A490 (structural)</td><td>10.9 / 6 radial dashes (Gr. 8)</td></tr>
+    <tr><td class="fi-cls">12.9</td><td class="fi-num">1220 / 177</td><td class="fi-num">1100</td><td>no SAE equivalent</td><td class="fi-num">—</td><td>A574 (socket head cap screws, 170/180 ksi)</td><td>12.9</td></tr>
+  </tbody>
+</table>
+<div class="fi-empty" id="fi-g-empty">No rows match that filter.</div>
+</div>
+
+<p class="fi-note">
+*Yield shown as ISO 898-1 minimum lower yield (ReL) for classes ≤6.8 and 0.2% proof stress (Rp0.2) for 8.8 and above.
+†Classes 4.8 and 5.8 have no specified yield in ISO 898-1; figures shown are the nominal values implied by the class designation.
+"Nearest SAE grade" means closest mechanical performance, <strong>not</strong> interchangeability — thread forms (metric vs UNC), dimensional standards, and head markings all differ. For structural bolting, substitution between A325/A490 and metric classes is governed by the project specification, not this table. Stainless classes (A2-70, A4-80 per ISO 3506 / ASTM F593) are covered in the <a href="/tag/standards/">standards index</a>.
+</p>
+
+<script>
+(function(){
+  var f=document.getElementById("fi-g-filter"),
+      rows=Array.prototype.slice.call(document.querySelectorAll("#fi-g-table tbody tr")),
+      empty=document.getElementById("fi-g-empty");
+  f.addEventListener("input",function(){
+    var q=f.value.trim().toLowerCase(),shown=0;
+    rows.forEach(function(r){
+      var hit=!q||r.textContent.toLowerCase().indexOf(q)>-1;
+      r.style.display=hit?"":"none";if(hit)shown++;
+    });
+    empty.style.display=shown?"none":"block";
+  });
+})();
+</script>
+</div>

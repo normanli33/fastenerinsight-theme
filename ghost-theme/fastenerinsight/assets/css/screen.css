@@ -488,27 +488,6 @@ img { max-width: 100%; display: block; }
   border-color: var(--fi-accent);
   transform: translateY(-2px);
 }
-.tool-card--soon {
-  cursor: default;
-  opacity: 0.7;
-}
-.tool-card--soon:hover {
-  border-color: var(--fi-slate-300);
-  transform: none;
-}
-.tool-card__badge {
-  display: inline-flex;
-  align-items: center;
-  font-size: 12px;
-  font-weight: 600;
-  font-family: var(--fi-font-mono);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--fi-text-muted);
-  background: var(--fi-slate-100);
-  padding: 4px 9px;
-  border-radius: 3px;
-}
 .tool-card__icon, .tool-card-icon {
   width: 40px;
   height: 40px;
