@@ -7,10 +7,11 @@
   },
   "license": "MIT",
   "author": {
-    "name": "FastenerInsight"
+    "name": "FastenerInsight",
+    "email": "normanli33@gmail.com"
   },
   "config": {
-    "posts_per_page": 12,
+    "posts_per_page": 50,
     "image_sizes": {
       "xs": { "width": 300 },
       "s": { "width": 600 },
@@ -20,9 +21,17 @@
     },
     "card_assets": true,
     "custom": {
-      "tools_section_title": {
+      "hero_title": {
         "type": "text",
-        "default": "Interactive Fastener Tools"
+        "default": "The intelligent guide to fastener standards & practice"
+      },
+      "hero_subtitle": {
+        "type": "text",
+        "default": "Deep dives into ISO, DIN, ASTM, and beyond. Torque specs, material grades, coating science, and field best practice \u2014 AI-generated, clearly explained."
+      },
+      "show_hero_diagram": {
+        "type": "boolean",
+        "default": true
       }
     }
   }

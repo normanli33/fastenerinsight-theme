@@ -113,7 +113,7 @@
     {{!-- Article cards grid --}}
     <div class="articles-grid reveal" id="articles-grid">
 
-      {{#foreach posts limit="6"}}
+      {{#foreach posts limit="50"}}
         {{#if @first}}
           {{!-- Featured (first post) --}}
           <article class="card card--featured" data-cat="{{tags.[0].slug}}" tabindex="0">
@@ -164,10 +164,10 @@
 
     </div>{{!-- /articles-grid --}}
 
-    {{!-- Compact list: posts 7-12 --}}
+    {{!-- Compact list: remaining posts --}}
     {{#if posts.[6]}}
     <div class="articles-list reveal" style="margin-top:48px;border-top:1px solid var(--border);">
-      {{#foreach posts from="7" limit="6"}}
+      {{#foreach posts from="7"}}
         <div class="article-item" data-cat="{{tags.[0].slug}}">
           <span class="article-item__num">{{@index}}</span>
           <div class="article-item__content">
@@ -390,6 +390,77 @@ function ghostPortalSignup(e) {
     window.location.href = '#/portal/signup?email=' + encodeURIComponent(email);
   } else {
     window.location.href = '#/portal/signup';
+  }
+}
+
+function filterArticles(category, btn) {
+  // Update active button
+  document.querySelectorAll('.filter-btn').forEach(function(b) {
+    b.classList.remove('active');
+  });
+  btn.classList.add('active');
+
+  // Tag-to-category mapping
+  var catMap = {
+    'standards': ['standards', 'iso', 'din', 'astm', 'asme', 'iso-898', 'astm-a325', 'din-931', 'iso-4042', 'asme-b18-31-2', 'astm-f593', 'asme-b18-2-2', 'a193', 'a194', 'f593', 'f594'],
+    'practice': ['engineering', 'mechanical-properties', 'socket-head-cap-screws', 'stud-bolts', 'flange-bolting', 'nuts', 'bolting', 'structural-bolts'],
+    'coatings': ['coatings', 'geomet', 'dacromet', 'ruspert', 'corrosion-protection', 'iso-4042'],
+    'materials': ['materials', 'stainless-steel', 'fasteners', 'iso-3506', 'en-standards'],
+    'news': []
+  };
+
+  // Get all article items (cards in grid + items in list)
+  var cards = document.querySelectorAll('#articles-grid article');
+  var items = document.querySelectorAll('.article-item');
+
+  function matchesCategory(tagSlug, cat) {
+    if (cat === 'all') return true;
+    var tags = catMap[cat] || [];
+    return tags.indexOf(tagSlug) >= 0;
+  }
+
+  var visibleCount = 0;
+
+  cards.forEach(function(card) {
+    var cat = card.getAttribute('data-cat') || '';
+    if (matchesCategory(cat, category)) {
+      card.style.display = '';
+      visibleCount++;
+    } else {
+      card.style.display = 'none';
+    }
+  });
+
+  items.forEach(function(item) {
+    var cat = item.getAttribute('data-cat') || '';
+    if (matchesCategory(cat, category)) {
+      item.style.display = '';
+      visibleCount++;
+    } else {
+      item.style.display = 'none';
+    }
+  });
+
+  // Show/hide the compact list section header based on whether any items are visible
+  var listSection = document.querySelector('.articles-list');
+  if (listSection) {
+    var visibleItems = listSection.querySelectorAll('.article-item[style*=\"display: \"]');
+    var anyVisible = false;
+    visibleItems.forEach(function(it) {
+      if (it.style.display !== 'none') anyVisible = true;
+    });
+    if (!anyVisible && category !== 'all') {
+      // Check if all items are hidden via none
+      var allHidden = true;
+      listSection.querySelectorAll('.article-item').forEach(function(it) {
+        var cat = it.getAttribute('data-cat') || '';
+        if (matchesCategory(cat, category)) allHidden = false;
+      });
+      if (allHidden) listSection.style.display = 'none';
+      else listSection.style.display = '';
+    } else {
+      listSection.style.display = '';
+    }
   }
 }
 </script>
