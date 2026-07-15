@@ -164,28 +164,6 @@
 
     </div>{{!-- /articles-grid --}}
 
-    {{!-- Compact list: remaining posts --}}
-    {{#if posts.[6]}}
-    <div class="articles-list reveal" style="margin-top:48px;border-top:1px solid var(--border);">
-      {{#foreach posts from="7"}}
-        <div class="article-item" data-cat="{{tags.[0].slug}}">
-          <span class="article-item__num">{{@index}}</span>
-          <div class="article-item__content">
-            {{#foreach tags limit="1"}}
-              <span class="card__cat cat-blue" style="font-size:10px;padding:2px 7px;margin-bottom:6px">{{name}}</span>
-            {{/foreach}}
-            <h4><a href="{{url}}">{{title}}</a></h4>
-            <p>{{excerpt words="24"}}</p>
-            <div class="article-item__meta">
-              <span>{{reading_time}}</span>
-              <span class="card__meta-dot"></span>
-              <span>{{date published_at format="MMM D, YYYY"}}</span>
-            </div>
-          </div>
-        </div>
-      {{/foreach}}
-    </div>
-    {{/if}}
 
     {{!-- Pagination --}}
     {{#if pagination}}
