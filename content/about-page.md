@@ -1,24 +1,7 @@
 # About Page Draft (~150 words)
 
-I'm a supply and demand planner who got tired of watching good sourcing
-decisions get stuck in spreadsheets. FastenerInsight started as my own
-reference notes — mapping ISO property classes to SAE grades, converting
-torque specs between Nm and ft-lb, tracking which DIN standard a customer
-actually meant by "the metric one" — and grew into the resource I wished
-existed when I started in procurement.
+FastenerInsight is a practical reference publication designed for engineers, procurement teams, and fastener distributors who need plain-language explanations of complex standards like ISO, DIN, and ASTM. Created by an experienced supply chain planner, the site bridges the gap between engineering rigor and procurement pragmatism. It offers reliable cross-referencing for legacy and international standards, practical comparisons of materials and coatings, clear glossary definitions, and custom data tools like torque calculators. The platform's content is AI-generated, rigorously human-reviewed for technical accuracy, and updated weekly to help industry professionals quickly verify specifications and avoid costly supply chain mistakes.
 
-By day, I manage demand forecasts and supplier constraints for hardware
-categories where one missed grade equivalency or a mis-specified thread can
-stall a production line. I recently completed Harvard's CS50x, and I've been
-using Python and SQL to build the kind of tools generic ERP dashboards never
-quite deliver: forecasting models, exception reports, and now, the
-calculators on this site.
-
-FastenerInsight is where that overlap lives — engineering rigor, procurement
-pragmatism, and the data tooling that connects them, built by someone who
-manages the supply chain, not just writes about it.
-
-*(Word count: ~152)*
 
 ---
 
