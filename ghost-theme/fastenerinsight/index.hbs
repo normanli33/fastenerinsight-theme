@@ -170,9 +170,9 @@
     {{!-- Pagination --}}
     {{#if pagination}}
     <div class="pagination reveal">
-      {{#if prev_page}}<a href="{{page_url prev_page}}" aria-label="Previous page">← Newer</a>{{/if}}
-      <span class="pagination__current">Page {{page}} of {{pages}}</span>
-      {{#if next_page}}<a href="{{page_url next_page}}" aria-label="Next page">Older →</a>{{/if}}
+      {{#if prev}}<a href="{{page_url prev}}" aria-label="Previous page">← Newer</a>{{/if}}
+      {{pagination}}
+      {{#if next}}<a href="{{page_url next}}" aria-label="Next page">Older →</a>{{/if}}
     </div>
     {{/if}}
 
@@ -386,7 +386,7 @@ function filterArticles(category, btn) {
     'practice': ['engineering', 'mechanical-properties', 'socket-head-cap-screws', 'stud-bolts', 'flange-bolting', 'nuts', 'bolting', 'structural-bolts'],
     'coatings': ['coatings', 'geomet', 'dacromet', 'ruspert', 'corrosion-protection', 'iso-4042'],
     'materials': ['materials', 'stainless-steel', 'fasteners', 'iso-3506', 'en-standards'],
-    'news': []
+    'news': ['industry-news']
   };
 
   // Get all article items (cards in grid + items in list)
