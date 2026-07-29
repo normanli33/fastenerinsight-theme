@@ -3,12 +3,12 @@ title: "Geomet vs Dacromet vs Ruspert: Performance and Fastener Coating Requirem
 date: 2026-07-14
 description: "A technical comparison of Geomet, Dacromet, and Ruspert coatings for fasteners, covering corrosion resistance, hydrogen embrittlement, friction control, compliance, and RFQ requirements."
 tags:
-  - fasteners
   - coatings
+  - coatings-finishes
+  - fasteners
   - Geomet
   - Dacromet
   - Ruspert
-  - corrosion protection
 summary: "Geomet, Dacromet, and Ruspert are widely used corrosion-protective coatings for fasteners, but they differ significantly in coating structure, environmental compliance, hydrogen embrittlement risk, friction control, and suitable applications."
 slug: "geomet-vs-dacromet-vs-ruspert"
 toc: true
