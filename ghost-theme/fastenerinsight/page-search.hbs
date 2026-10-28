@@ -1,0 +1,22 @@
+{{!< default}}
+<section class="fi-search-page">
+
+  {{#if @page.show_title_and_feature_image}}<h1>Search articles</h1>{{/if}}
+  <p class="lede">Find articles by product, standard number, material or coating. Searches article titles, tags and full text.</p>
+
+  <form class="search" id="searchForm" role="search" action="/search/" method="get">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.6-3.6"></path></svg>
+    <label class="sr" for="q">Search articles</label>
+    <input id="q" name="q" type="search" autocomplete="off" spellcheck="false" placeholder="e.g. DIN 931, ASTM A325, socket head cap screws">
+    <button type="submit">Search</button>
+  </form>
+
+  <div class="chips" id="chips"></div>
+  <div class="meta" id="meta" role="status" aria-live="polite"></div>
+  <ol class="results" id="results"></ol>
+
+<button id="fi-search-retry" type="button" hidden>Retry search</button>
+<noscript><p>Enable JavaScript to search articles, or <a href="{{@site.url}}/tag/standards/">browse the standards archive</a>.</p></noscript>
+</section>
+<div id="fi-search-config" data-site="{{@site.url}}" data-key="{{@custom.search_content_api_key}}" hidden></div>
+<script src="{{asset "js/search.js"}}" defer></script>

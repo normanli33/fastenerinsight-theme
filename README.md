@@ -104,3 +104,11 @@ reporting, and the calculators on this site) — the throughline being
 someone who manages a real supply chain and builds the tools they wish
 existed, rather than a generalist blogger. See `content/about-page.md`
 for the full draft.
+
+## Blog article search
+
+Upload and activate the updated theme, then create and publish a Ghost **Page** titled **Search** with URL slug **search**. Ghost automatically uses page-search.hbs for /search/. No page body is needed. Ensure this is a Page, not a post, and that no custom route overrides /search/.
+
+The header Search link and homepage search form open this page. Search ranks article titles, tags and full text, with snippets, highlighted matches, suggested queries and retry handling. Try DIN 931, ISO898, ISO-898, ASTM A325, or socket head cap screws. The index covers published articles across all archive pages and is cached in the browser session for 15 minutes. Members-only article bodies remain subject to Ghost's public Content API permissions.
+
+The theme setting **Search content api key** uses the existing public Content API key from this repository. If it has been rotated, create a custom integration in Ghost Admin and paste its Content API key into this setting. Never use an Admin API key.

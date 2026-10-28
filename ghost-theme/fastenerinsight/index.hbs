@@ -102,6 +102,11 @@
       <p>New articles published weekly. AI-generated and clearly flagged.</p>
     </div>
 
+    <form class="fi-article-search" role="search" action="{{@site.url}}/search/" method="get">
+      <label for="fi-home-query">Search by product or standard</label>
+      <div><input id="fi-home-query" name="q" type="search" placeholder="e.g. ISO 898, DIN 931, hex bolts" required><button type="submit">Search articles</button></div>
+    </form>
+
     {{!-- Tag filter bar --}}
     <div class="filter-bar reveal">
       <button class="filter-btn active" onclick="filterArticles('all',this)">All topics</button>
