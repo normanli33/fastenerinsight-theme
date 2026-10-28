@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fastener Insight — Smart Fastening Solutions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0a0a0b;
+      --surface: #141416;
+      --surface2: #1c1c1f;
+      --border: #2a2a2e;
+      --text: #e8e8ed;
+      --text2: #9898a3;
+      --accent: #3b82f6;
+      --accent-hover: #2563eb;
+      --radius: 12px;
+    }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    .container { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 0; border-bottom: 1px solid var(--border);
+    }
+    .logo { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; color: var(--text); text-decoration: none; }
+    .logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a { color: var(--text2); text-decoration: none; font-size: 14px; font-weight: 500; transition: color .2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-search {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 14px; border-radius: 999px;
+      border: 1px solid var(--border); background: var(--surface);
+      color: var(--text2); font-family: inherit; font-size: 13px; font-weight: 500;
+      cursor: pointer; transition: all .2s;
+    }
+    .nav-search:hover { color: var(--text); border-color: var(--text2); background: var(--surface2); }
+    .hero-search {
+      display: flex; align-items: center; gap: 10px;
+      width: 100%; max-width: 480px; margin: 28px auto 0;
+      padding: 14px 20px; border-radius: 999px;
+      border: 1px solid var(--border); background: var(--surface);
+      color: var(--text2); font-family: inherit; font-size: 15px; text-align: left;
+      cursor: pointer; transition: all .2s;
+    }
+    .hero-search:hover { border-color: var(--accent); color: var(--text); transform: translateY(-1px); }
+    .hero-search kbd {
+      margin-left: auto; font-size: 11px; font-family: inherit;
+      padding: 2px 6px; border-radius: 4px; border: 1px solid var(--border); color: var(--text2);
+    }
+    .hero { padding: 120px 0 80px; text-align: center; }
+    .hero h1 { font-size: 56px; font-weight: 800; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 20px; }
+    .hero h1 span { color: var(--accent); }
+    .hero p { font-size: 18px; color: var(--text2); max-width: 560px; margin: 0 auto 40px; }
+    .btn-group { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 32px; border-radius: var(--radius);
+      font-size: 15px; font-weight: 600; text-decoration: none;
+      transition: all .2s; cursor: pointer;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+    .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+    .btn-secondary:hover { border-color: var(--text2); transform: translateY(-1px); }
+    section { padding: 80px 0; }
+    section h2 { font-size: 32px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 16px; }
+    section .subtitle { color: var(--text2); font-size: 16px; max-width: 480px; margin-bottom: 48px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 32px; transition: border-color .2s;
+    }
+    .card:hover { border-color: var(--text2); }
+    .card .icon { font-size: 28px; margin-bottom: 16px; }
+    .card h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+    .card p { color: var(--text2); font-size: 14px; line-height: 1.6; }
+    .blog-cta {
+      text-align: center; background: var(--surface);
+      border: 1px solid var(--border); border-radius: 16px; padding: 64px 40px;
+    }
+    .blog-cta h2 { margin-bottom: 12px; }
+    .blog-cta p { color: var(--text2); margin-bottom: 32px; }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .contact-item {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 24px;
+    }
+    .contact-item .label {
+      font-size: 12px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.5px; color: var(--text2); margin-bottom: 6px;
+    }
+    .contact-item .value { font-size: 15px; color: var(--text); }
+    .contact-item .value a { color: var(--accent); text-decoration: none; }
+    .contact-item .value a:hover { text-decoration: underline; }
+    footer {
+      border-top: 1px solid var(--border); padding: 32px 0;
+      text-align: center; color: var(--text2); font-size: 13px;
+    }
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 36px; }
+      .grid-3 { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .nav-links { gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <nav>
+    <a href="/" class="logo">Fastener<span>Insight</span></a>
+    <div class="nav-links">
+      <button type="button" class="nav-search" data-ghost-search aria-label="Search articles">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.6-3.6"></path></svg>
+        <span>Search</span>
+      </button>
+      <a href="#about">About</a>
+      <a href="https://blog.fastenerinsight.com" target="_blank">Blog</a>
+      <a href="https://ibkr.fastenerinsight.com/dashboard/" target="_blank">Portfolio</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+  <section class="hero">
+    <h1>Smart Fastening<br><span>Solutions</span></h1>
+    <p>Precision-engineered fasteners and expert insight — delivering quality, reliability, and innovation to every project.</p>
+    <div class="btn-group">
+      <a href="https://blog.fastenerinsight.com" target="_blank" class="btn btn-primary">Read Our Blog →</a>
+      <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+    </div>
+    <button type="button" class="hero-search" data-ghost-search aria-label="Search articles">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.6-3.6"></path></svg>
+      <span>Search articles — e.g. EN 3.1 certificates</span>
+      <kbd>/</kbd>
+    </button>
+  </section>
+  <section id="about">
+    <h2>About</h2>
+    <p class="subtitle">Fastener Insight is a fastening solutions provider committed to quality products and technical expertise.</p>
+    <div class="grid-3">
+      <div class="card">
+        <div class="icon">⚙️</div>
+        <h3>Quality Products</h3>
+        <p>Sourced from trusted manufacturers, every fastener meets rigorous standards for strength, durability, and precision.</p>
+      </div>
+      <div class="card">
+        <div class="icon">📊</div>
+        <h3>Technical Insight</h3>
+        <p>Deep industry knowledge across automotive, construction, and manufacturing — backed by real-world experience.</p>
+      </div>
+      <div class="card">
+        <div class="icon">🤝</div>
+        <h3>Reliable Service</h3>
+        <p>Responsive support and supply chain expertise to keep your projects on track, on time, and on budget.</p>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="blog-cta">
+      <h2>Visit Our Blog</h2>
+      <p>Industry insights, product guides, and technical deep-dives from the team at Fastener Insight.</p>
+      <a href="https://blog.fastenerinsight.com" target="_blank" class="btn btn-primary">Explore the Blog →</a>
+    </div>
+  </section>
+  <section id="contact">
+    <h2>Contact</h2>
+    <p class="subtitle">Have a question or want to work with us? We'd love to hear from you.</p>
+    <div class="contact-grid">
+      <div class="contact-item">
+        <div class="label">Email</div>
+        <div class="value"><a href="mailto:hello@fastenerinsight.com">hello@fastenerinsight.com</a></div>
+      </div>
+      <div class="contact-item">
+        <div class="label">Location</div>
+        <div class="value">Sydney, Australia</div>
+      </div>
+    </div>
+  </section>
+</div>
+<footer>
+  <div class="container">&copy; 2026 Fastener Insight. All rights reserved.</div>
+</footer>
+
+<!-- Ghost Sodo search (queries the blog's Content API) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/ghost/sodo-search@~1.8/umd/main.css">
+<script defer src="https://cdn.jsdelivr.net/ghost/sodo-search@~1.8/umd/sodo-search.min.js"
+        data-key="a6fb75a940c0d707b31491aa62"
+        data-styles="https://cdn.jsdelivr.net/ghost/sodo-search@~1.8/umd/main.css"
+        data-sodo-search="https://blog.fastenerinsight.com/"
+        data-locale="en" crossorigin="anonymous"></script>
+<script>
+  // Press "/" anywhere to open search
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== '/' || e.metaKey || e.ctrlKey || e.altKey) return;
+    var t = e.target.tagName;
+    if (t === 'INPUT' || t === 'TEXTAREA' || t === 'SELECT' || e.target.isContentEditable) return;
+    e.preventDefault();
+    var trigger = document.querySelector('[data-ghost-search]');
+    if (trigger) trigger.click();
+  });
+</script>
+</body>
+</html>

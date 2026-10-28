@@ -92,6 +92,33 @@ img { max-width: 100%; display: block; }
 }
 .site-nav a:hover { color: var(--fi-black); text-decoration: none; }
 
+/* Header search trigger (opens Ghost's built-in Sodo search) */
+.site-search-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border: 1px solid var(--fi-border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--fi-slate-700);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color .2s, color .2s, background .2s;
+}
+.site-search-btn:hover {
+  border-color: var(--fi-slate-400);
+  color: var(--fi-black);
+  background: var(--fi-slate-100);
+}
+.site-search-btn svg { flex: 0 0 auto; }
+@media (max-width: 640px) {
+  .site-search-btn span { display: none; }
+  .site-search-btn { padding: 7px 10px; }
+}
+
 /* ============ HERO ============ */
 .hero {
   background: var(--fi-bg-inverse);
