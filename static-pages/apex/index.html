@@ -54,6 +54,12 @@
       cursor: pointer; transition: all .2s;
     }
     .hero-search:hover { border-color: var(--accent); color: var(--text); transform: translateY(-1px); }
+    .hero-search:focus-within { border-color: var(--accent); }
+    .hero-search input {
+      flex: 1; min-width: 0; border: 0; outline: 0; background: transparent;
+      color: var(--text); font: inherit; font-size: 15px;
+    }
+    .hero-search input::placeholder { color: var(--text2); }
     .hero-search kbd {
       margin-left: auto; font-size: 11px; font-family: inherit;
       padding: 2px 6px; border-radius: 4px; border: 1px solid var(--border); color: var(--text2);
@@ -120,10 +126,10 @@
   <nav>
     <a href="/" class="logo">Fastener<span>Insight</span></a>
     <div class="nav-links">
-      <button type="button" class="nav-search" data-ghost-search aria-label="Search articles">
+      <a class="nav-search" href="https://blog.fastenerinsight.com/search/" aria-label="Search articles">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.6-3.6"></path></svg>
         <span>Search</span>
-      </button>
+      </a>
       <a href="#about">About</a>
       <a href="https://blog.fastenerinsight.com" target="_blank">Blog</a>
       <a href="https://ibkr.fastenerinsight.com/dashboard/" target="_blank">Portfolio</a>
@@ -137,11 +143,12 @@
       <a href="https://blog.fastenerinsight.com" target="_blank" class="btn btn-primary">Read Our Blog →</a>
       <a href="#contact" class="btn btn-secondary">Get in Touch</a>
     </div>
-    <button type="button" class="hero-search" data-ghost-search aria-label="Search articles">
+    <form class="hero-search" action="https://blog.fastenerinsight.com/search/" method="get" role="search">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.6-3.6"></path></svg>
-      <span>Search articles — e.g. EN 3.1 certificates</span>
+      <label class="sr" for="apex-q" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;">Search articles</label>
+      <input id="apex-q" name="q" type="search" placeholder="Search articles — e.g. EN 3.1 certificates" autocomplete="off">
       <kbd>/</kbd>
-    </button>
+    </form>
   </section>
   <section id="about">
     <h2>About</h2>
@@ -190,22 +197,15 @@
   <div class="container">&copy; 2026 Fastener Insight. All rights reserved.</div>
 </footer>
 
-<!-- Ghost Sodo search (queries the blog's Content API) -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/ghost/sodo-search@~1.8/umd/main.css">
-<script defer src="https://cdn.jsdelivr.net/ghost/sodo-search@~1.8/umd/sodo-search.min.js"
-        data-key="a6fb75a940c0d707b31491aa62"
-        data-styles="https://cdn.jsdelivr.net/ghost/sodo-search@~1.8/umd/main.css"
-        data-sodo-search="https://blog.fastenerinsight.com/"
-        data-locale="en" crossorigin="anonymous"></script>
 <script>
-  // Press "/" anywhere to open search
+  // Press "/" to jump into the article search box
   document.addEventListener('keydown', function (e) {
     if (e.key !== '/' || e.metaKey || e.ctrlKey || e.altKey) return;
     var t = e.target.tagName;
     if (t === 'INPUT' || t === 'TEXTAREA' || t === 'SELECT' || e.target.isContentEditable) return;
     e.preventDefault();
-    var trigger = document.querySelector('[data-ghost-search]');
-    if (trigger) trigger.click();
+    var box = document.getElementById('apex-q');
+    if (box) box.focus();
   });
 </script>
 </body>

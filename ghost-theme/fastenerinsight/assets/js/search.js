@@ -147,8 +147,17 @@
     return { score: total, hits: hits };
   }
 
+  // Word terms are matched on whole words (short terms like "en", "din", "iso" exactly so they
+  // never bite into "fastener"/"engineering"), longer ones may highlight their derivatives.
+  function termPattern(t) {
+    var raw = rxEsc(t.raw);
+    if (t.type !== 'word') return raw;
+    if (t.raw.length >= 4) return '\\b' + raw + '[a-z0-9]*\\b';
+    return '\\b' + raw + '\\b';
+  }
+
   function highlight(text, terms) {
-    var patterns = terms.map(function (t) { return rxEsc(t.raw); }).sort(function(a,b){return b.length-a.length;});
+    var patterns = terms.map(termPattern).sort(function(a,b){return b.length-a.length;});
     if (!patterns.length) return esc(text);
     var re = new RegExp(patterns.join('|'), 'gi'), result = '', pos = 0;
     String(text || '').replace(re, function(m, offset) {
@@ -161,10 +170,10 @@
 
   function snippet(p, terms) {
     var body = p.body || p.excerpt || '';
-    var lower = body.toLowerCase();
     var idx = -1;
     for (var i = 0; i < terms.length; i++) {
-      var i2 = lower.indexOf(terms[i].raw);
+      var m = new RegExp(termPattern(terms[i]), 'i').exec(body);
+      var i2 = m ? m.index : -1;
       if (i2 >= 0 && (idx < 0 || i2 < idx)) idx = i2;
     }
     if (idx < 0) idx = 0;
