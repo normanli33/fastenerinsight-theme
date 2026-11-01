@@ -73,6 +73,10 @@ ASTM A967/A967M-25 covers nitric acid, citric acid and electrochemical passivati
 
 ## 2. Passivated vs Non-Passivated Stainless Steel Fasteners
 
+![A2-70 stainless steel fasteners: chemically passivated (left) and non-passivated with free iron rust staining (right)](https://blog.fastenerinsight.com/content/images/2026/11/passivation-comparison.jpg)
+
+*Passivated versus non-passivated A2-70 stainless fasteners after exposure \u2014 free iron contamination on the untreated parts shows as rust staining.*
+
 A common misconception is that stainless steel fasteners without chemical passivation have no corrosion protection.
 
 This is incorrect.
