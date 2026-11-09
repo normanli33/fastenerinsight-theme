@@ -1,64 +1,217 @@
-<!-- FastenerInsight — Grade Comparison Table
-     Paste this entire file into an HTML card on a Ghost PAGE with slug: grade-comparison-table
-     Self-contained: no external dependencies. -->
-<div class="fi-tool" id="fi-grades">
+<!-- FastenerInsight - Grade Comparison Table
+     Ghost PAGE, slug: grade-comparison-table
+     Live layout (as deployed 2026-11-10):
+       - article body  -> ONE HTML card (mobiledoc "html" card, so Ghost keeps the markup)
+       - <style> block -> Post settings > Code injection > Post header
+       - <script>      -> Post settings > Code injection > Post footer
+     Do not post with ?source=html: Ghost strips <style>/<script>.
+     Filter/search needs the JS; all rows are in the HTML so the tables still read without it. -->
+
+<!-- ============ 1. POST HEADER CODE INJECTION (style) ============ -->
 <style>
-  #fi-grades{--fi-ink:#1d2530;--fi-mut:#5b6672;--fi-line:#d7dce2;--fi-bg:#f4f6f8;--fi-acc:#24506e;--fi-acc2:#0e2a40;
-    font-family:inherit;color:var(--fi-ink)}
-  #fi-grades *{box-sizing:border-box}
-  #fi-grades .fi-filter{width:100%;max-width:340px;padding:9px 12px;border:1px solid var(--fi-line);border-radius:6px;font:inherit;font-size:.95rem;margin-bottom:14px}
-  #fi-grades .fi-filter:focus{outline:2px solid var(--fi-acc);outline-offset:1px}
-  #fi-grades .fi-wrap{overflow-x:auto;border:1.5px solid var(--fi-acc2);border-radius:4px}
-  #fi-grades table{border-collapse:collapse;width:100%;min-width:760px;font-size:.88rem}
-  #fi-grades thead th{background:var(--fi-acc2);color:#fff;text-align:left;padding:9px 12px;font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;font-weight:700;white-space:nowrap}
-  #fi-grades tbody td{padding:9px 12px;border-top:1px solid var(--fi-line);vertical-align:top}
-  #fi-grades tbody tr:nth-child(even){background:var(--fi-bg)}
-  #fi-grades td.fi-num{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
-  #fi-grades td.fi-cls{font-weight:700;color:var(--fi-acc2);white-space:nowrap}
-  #fi-grades .fi-note{font-size:.82rem;color:var(--fi-mut);margin-top:14px;line-height:1.55}
-  #fi-grades .fi-empty{padding:16px;color:var(--fi-mut);display:none}
+.fi-grades [hidden] { display: none !important; }
+.fi-grades .fi-controls:not([hidden]) {
+  display: flex; flex-wrap: wrap; align-items: end; gap: .75rem;
+  padding: 1rem; border: 1px solid; border-radius: .5rem; margin: 1.25rem 0;
+}
+.fi-grades .fi-controls label { display: grid; gap: .25rem; min-width: 0; max-width: 100%; }
+.fi-grades .fi-controls :is(input, select, button) {
+  font: inherit; color: inherit; background: transparent;
+  border: 1px solid; border-radius: .25rem; padding: .35rem .5rem;
+  min-width: 0; max-width: 100%; box-sizing: border-box;
+}
+.fi-grades .fi-controls select option { color: CanvasText; background: Canvas; }
+.fi-grades .fi-controls button { cursor: pointer; }
+.fi-grades .fi-status { flex-basis: 100%; margin: 0; font-size: .9em; }
+.fi-grades .fi-table-wrap { max-width: 100%; overflow-x: auto; margin: .75rem 0 1.25rem; }
+.fi-grades .fi-table-wrap table {
+  display: table; width: 100%; min-width: 32rem; margin: 0;
+  border-collapse: collapse; white-space: normal; font-size: .9em;
+}
+.fi-grades :is(th, td) { text-align: left; vertical-align: top; padding: .5rem .65rem; border-bottom: 1px solid; }
+.fi-grades :focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+.fi-grades .fi-table-wrap:focus-visible { outline-offset: -2px; }
+.fi-grades [id] { scroll-margin-top: 5rem; }
 </style>
 
-<input class="fi-filter" id="fi-g-filter" type="search" placeholder="Filter — try 8.8, Grade 5, A325…" aria-label="Filter table rows">
-
-<div class="fi-wrap">
-<table id="fi-g-table">
-  <thead><tr>
-    <th>Metric class<br>ISO 898-1</th><th>Tensile<br>(MPa / ksi)</th><th>Min. yield*<br>(MPa)</th>
-    <th>Nearest SAE<br>J429 grade</th><th>SAE tensile<br>(ksi)</th><th>Common ASTM<br>equivalents</th><th>Typical head<br>marking</th>
-  </tr></thead>
-  <tbody>
-    <tr><td class="fi-cls">4.6</td><td class="fi-num">400 / 58</td><td class="fi-num">240</td><td>Grade 1</td><td class="fi-num">60</td><td>A307 Grade A</td><td>4.6 (or unmarked)</td></tr>
-    <tr><td class="fi-cls">4.8</td><td class="fi-num">420 / 61</td><td class="fi-num">340†</td><td>†Grade 2</td><td class="fi-num">74</td><td>A307 Grade A (nearest)</td><td>4.8</td></tr>
-    <tr><td class="fi-cls">5.8</td><td class="fi-num">520 / 75</td><td class="fi-num">420†</td><td>Grade 2 (≤3/4")</td><td class="fi-num">74</td><td>—</td><td>5.8</td></tr>
-    <tr><td class="fi-cls">8.8</td><td class="fi-num">800–830 / 116–120</td><td class="fi-num">640–660</td><td>Grade 5</td><td class="fi-num">120</td><td>A449 · F3125 Gr. A325 (structural)</td><td>8.8 / 3 radial dashes (Gr. 5)</td></tr>
-    <tr><td class="fi-cls">9.8</td><td class="fi-num">900 / 130</td><td class="fi-num">720</td><td>between Gr. 5 and 8</td><td class="fi-num">—</td><td>—</td><td>9.8</td></tr>
-    <tr><td class="fi-cls">10.9</td><td class="fi-num">1040 / 151</td><td class="fi-num">940</td><td>Grade 8</td><td class="fi-num">150</td><td>A354 Gr. BD · F3125 Gr. A490 (structural)</td><td>10.9 / 6 radial dashes (Gr. 8)</td></tr>
-    <tr><td class="fi-cls">12.9</td><td class="fi-num">1220 / 177</td><td class="fi-num">1100</td><td>no SAE equivalent</td><td class="fi-num">—</td><td>A574 (socket head cap screws, 170/180 ksi)</td><td>12.9</td></tr>
-  </tbody>
+<!-- ============ 2. HTML CARD BODY ============ -->
+<div class="fi-grades" id="fi-grade-guide">
+<p>A fastener marking tells you where to start. An ISO 8.8 bolt, an SAE Grade 5 bolt and an ASTM F3125 Grade A325 structural bolt can fall in a similar tensile-strength range, yet each belongs to a different specification. The tables below identify the governing standard and show what each designation tells you before you order, inspect or approve a fastener.</p>
+<nav aria-label="In this guide"><p><a href="#fi-tables">Comparison tables</a> · <a href="#fi-loadability">Reduced loadability</a> · <a href="#fi-testing">Testing and purchasing</a> · <a href="#fi-references">Standards</a></p></nav>
+<h2 id="fi-tables">Fastener grade comparison tables</h2>
+<p>Read each table within its own standard. Similar tensile values alone do not establish interchangeability. Check thread system, geometry, material, coating, test requirements and any assembly approvals against the drawing or contract.</p>
+<div class="fi-controls" hidden>
+<label>Find a grade or standard <input type="search" placeholder="e.g. 10.9 or A325" data-fi-search></label>
+<label>Show <select data-fi-select>
+<option value="">All families</option><option value="steel">ISO steel fasteners</option><option value="stainless">ISO stainless fasteners</option><option value="inch">SAE and ASTM general fasteners</option><option value="structural">ASTM structural bolting</option><option value="nuts">Nuts</option>
+</select></label>
+<button type="button" data-fi-clear>Reset</button>
+<p class="fi-status" role="status" aria-live="polite"></p>
+</div>
+<section data-fi-family="steel">
+<h3 id="fi-steel">ISO 898-1 carbon and alloy steel bolts, screws and studs</h3>
+<div class="fi-table-wrap" role="region" tabindex="0" aria-labelledby="fi-steel">
+<table aria-labelledby="fi-steel">
+<thead><tr><th scope="col">Property class</th><th scope="col">Nominal tensile strength (MPa)</th><th scope="col">Minimum tensile strength (MPa)</th><th scope="col">Size or application note</th></tr></thead>
+<tbody>
+<tr><th scope="row">4.6</th><td>400</td><td>400</td><td>Within standard scope</td></tr>
+<tr><th scope="row">4.8</th><td>400</td><td>420</td><td>Within standard scope</td></tr>
+<tr><th scope="row">5.6</th><td>500</td><td>500</td><td>Within standard scope</td></tr>
+<tr><th scope="row">5.8</th><td>500</td><td>520</td><td>Within standard scope</td></tr>
+<tr><th scope="row">6.8</th><td>600</td><td>600</td><td>Within standard scope</td></tr>
+<tr><th scope="row">8.8</th><td>800</td><td>800</td><td>d ≤ 16 mm, general values; structural bolting has separate provisions</td></tr>
+<tr><th scope="row">8.8</th><td>800</td><td>830</td><td>d > 16 mm; check the structural-bolting provisions separately</td></tr>
+<tr><th scope="row">9.8</th><td>900</td><td>900</td><td>d ≤ 16 mm</td></tr>
+<tr><th scope="row">10.9</th><td>1000</td><td>1040</td><td>Within standard scope</td></tr>
+<tr><th scope="row">12.9</th><td>1200</td><td>1220</td><td>Within standard scope</td></tr>
+</tbody>
 </table>
-<div class="fi-empty" id="fi-g-empty">No rows match that filter.</div>
+</div>
+</section>
+<p>The ISO 898-1 designation uses the first number to express nominal tensile strength in hundreds of MPa. The second number gives ten times the nominal yield-to-tensile ratio. For 10.9, that gives 1,000 MPa nominal tensile strength and a nominal ratio of 0.9. The specified minimum tensile strength is 1,040 MPa. For acceptance, use the standard’s applicable minimum, proof load and test method for the actual size and product. <em>d</em> is nominal thread diameter. <a href="https://www.iso.org/standard/60610.html">ISO 898-1:2013</a></p>
+<section data-fi-family="stainless">
+<h3 id="fi-stainless">ISO 3506-1 stainless bolts, screws and studs</h3>
+<div class="fi-table-wrap" role="region" tabindex="0" aria-labelledby="fi-stainless">
+<table aria-labelledby="fi-stainless">
+<thead><tr><th scope="col">Designation</th><th scope="col">Stainless grade</th><th scope="col">Minimum tensile strength (MPa)</th><th scope="col">Minimum 0.2% proof stress (MPa)</th></tr></thead>
+<tbody>
+<tr><th scope="row">A2-70</th><td>A2 austenitic</td><td>700</td><td>450</td></tr>
+<tr><th scope="row">A4-70</th><td>A4 austenitic</td><td>700</td><td>450</td></tr>
+<tr><th scope="row">A4-80</th><td>A4 austenitic</td><td>800</td><td>600</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<p>In A4-80, A4 identifies the stainless grade and 80 identifies the property class. A2-70 and A4-70 share the listed mechanical minima but differ in chemical requirements. The values shown are for the listed full-loadability designations under the standard’s applicable test conditions. Assess stainless grade against the service environment. <a href="https://www.iso.org/standard/70045.html">ISO 3506-1:2020</a></p>
+<section data-fi-family="inch">
+<h3 id="fi-inch">SAE and ASTM general fastener specifications</h3>
+<div class="fi-table-wrap" role="region" tabindex="0" aria-labelledby="fi-inch">
+<table aria-labelledby="fi-inch">
+<thead><tr><th scope="col">Designation</th><th scope="col">Product scope</th><th scope="col">What to verify</th></tr></thead>
+<tbody>
+<tr><th scope="row">SAE J429 Grade 2</th><td>Inch-series externally threaded steel fasteners</td><td>Check the product and diameter covered by the grade.</td></tr>
+<tr><th scope="row">SAE J429 Grade 5</th><td>Inch-series externally threaded steel fasteners</td><td>Use the size-specific requirements in J429.</td></tr>
+<tr><th scope="row">SAE J429 Grade 8</th><td>Inch-series externally threaded steel fasteners</td><td>Use the grade requirements and applicable markings in J429.</td></tr>
+<tr><th scope="row">ASTM A307 Grade A</th><td>General-purpose carbon steel fasteners</td><td>Confirm the grade and product form in the order.</td></tr>
+<tr><th scope="row">ASTM A449</th><td>Heat-treated steel bolts, hex cap screws and studs</td><td>The tensile requirement varies with diameter.</td></tr>
+<tr><th scope="row">ASTM A354 Grade BD</th><td>Quenched and tempered alloy steel externally threaded fasteners</td><td>Verify the specified grade, diameter and product form.</td></tr>
+<tr><th scope="row">ASTM A574</th><td>Alloy steel socket-head cap screws</td><td>Confirm inch-series product geometry and size-specific requirements.</td></tr>
+<tr><th scope="row">ASTM F593</th><td>Stainless steel bolts, hex cap screws and studs</td><td>Check alloy group, condition and size.</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<p>Use the cited SAE edition and the ASTM specification named in the purchase order to obtain numeric limits for the product. <a href="https://saemobilus.sae.org/standards/j429_201405-mechanical-material-requirements-externally-threaded-fasteners">SAE J429</a> · <a href="https://store.astm.org/products-services/standards-and-publications/standards/fastener-standards.html">ASTM fastener standards catalog</a></p>
+<section data-fi-family="structural">
+<h3 id="fi-structural">ASTM F3125/F3125M structural bolts and assemblies</h3>
+<div class="fi-table-wrap" role="region" tabindex="0" aria-labelledby="fi-structural">
+<table aria-labelledby="fi-structural">
+<thead><tr><th scope="col">Grade</th><th scope="col">Style</th><th scope="col">Minimum tensile strength</th><th scope="col">Nominal diameter range</th></tr></thead>
+<tbody>
+<tr><th scope="row">A325</th><td>Heavy hex</td><td>120 ksi</td><td>½–1½ in</td></tr>
+<tr><th scope="row">A325M</th><td>Heavy hex</td><td>830 MPa</td><td>M12–M36</td></tr>
+<tr><th scope="row">F1852</th><td>Twist-off assembly</td><td>120 ksi</td><td>½–1¼ in</td></tr>
+<tr><th scope="row">144</th><td>Heavy hex or twist-off assembly</td><td>144 ksi</td><td>½–1¼ in</td></tr>
+<tr><th scope="row">A490</th><td>Heavy hex</td><td>150 ksi</td><td>½–1½ in</td></tr>
+<tr><th scope="row">A490M</th><td>Heavy hex</td><td>1040 MPa</td><td>M12–M36</td></tr>
+<tr><th scope="row">F2280</th><td>Twist-off assembly</td><td>150 ksi</td><td>½–1¼ in</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<p>A325 and A490 survive as grade names under F3125/F3125M. Specify grade, type and style, and use the units for the specified series. For structural work, verify assembly components, coating, installation and inspection against the governing project documents and applicable structural bolting specification. Route proposed substitutions through the project’s approval process. <a href="https://store.astm.org/f3125_f3125m-26.html">ASTM F3125/F3125M-26</a> · <a href="https://www.aisc.org/aisc/publications/current-standards/rcsc-standard/">RCSC Specification (AISC)</a></p>
+<section data-fi-family="nuts">
+<h3 id="fi-nuts">Nut specifications and property classes</h3>
+<div class="fi-table-wrap" role="region" tabindex="0" aria-labelledby="fi-nuts">
+<table aria-labelledby="fi-nuts">
+<thead><tr><th scope="col">Designation or standard</th><th scope="col">Scope</th><th scope="col">What to verify</th></tr></thead>
+<tbody>
+<tr><th scope="row">ISO 898-2 classes 5, 6, 8, 10 and 12</th><td>Metric carbon or alloy steel regular or high nuts, as applicable</td><td>Use the permitted nut style, size and bolt pairing for the class.</td></tr>
+<tr><th scope="row">ISO 898-2 classes 04 and 05</th><td>Metric carbon or alloy steel thin nuts (style 0)</td><td>Reduced loadability. A jam-nut arrangement uses a regular or high nut as well.</td></tr>
+<tr><th scope="row">ISO 3506-2</th><td>Metric stainless steel nuts</td><td>Use the nut’s own grade, class, style and proof-load requirements.</td></tr>
+<tr><th scope="row">SAE J995</th><td>Inch-series steel nuts</td><td>Check the nut grade, dimensions and proof load.</td></tr>
+<tr><th scope="row">ASTM A563/A563M</th><td>Carbon and alloy steel nuts, inch and metric</td><td>Check grade and suitability for the specified assembly.</td></tr>
+<tr><th scope="row">ASTM F594</th><td>Stainless steel nuts</td><td>Check alloy group, condition and applicable proof load.</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<p>Nut performance is assessed using the applicable nut proof load and assembly rules. Use the mating guidance for the actual thread size, pitch and nut style. The leading zero in ISO 898-2 classes 04 and 05 belongs to the thin-nut classification. <a href="https://www.iso.org/standard/79349.html">ISO 898-2:2022</a> · <a href="https://www.iso.org/standard/70046.html">ISO 3506-2:2020</a> · <a href="https://saemobilus.sae.org/standards/j995_201707-mechanical-material-requirements-steel-nuts">SAE J995</a> · <a href="https://store.astm.org/products-services/standards-and-publications/standards/fastener-standards.html">ASTM fastener standards catalog</a> · <a href="https://www.iso.org/standard/75019.html">ISO 4035:2023</a></p>
+<h2 id="fi-loadability">Reduced loadability: what the leading zero means</h2>
+<p><strong>8.8 and 08.8.</strong> ISO 898-1 uses 08.8 for a reduced-loadability fastener with the material properties of class 8.8. Its finished-product load depends on the limiting geometry and the applicable requirements. A leading zero gives no universal reduction factor. <a href="https://www.iso.org/standard/60610.html">ISO 898-1:2013</a></p>
+<p><strong>A4-80 and A4-080.</strong> Under ISO 3506-1, 080 is the reduced-loadability marking symbol for class 80 when the applicable threaded-section tensile test can be performed. The class-level tensile value alone does not establish the load the complete screw can carry through its head or shank. For reduced-loadability fasteners whose nominal threaded length <em>b</em> is below 3<em>d</em> and prevents that test, ISO 3506-1 calls for the stainless grade marking and omits the property-class designation. See clause 10.1.3 and Table 14. <a href="https://www.iso.org/standard/70045.html">ISO 3506-1:2020</a></p>
+<p><strong>Identify the product standard before classifying the screw.</strong> ISO 10642 hexagon socket countersunk screws and ISO 7380-1 hexagon socket button-head screws have reduced loadability by design. A conventional ISO 4762 socket head cap screw belongs to a different product standard. The presence of a socket or the inability to grip a short screw in a tensile fixture is insufficient to classify it as reduced-loadability. <a href="https://www.iso.org/standard/90795.html">ISO 10642:2026</a> · <a href="https://www.iso.org/standard/78699.html">ISO 7380-1:2022</a> · <a href="https://www.iso.org/standard/34460.html">ISO 4762:2004</a></p>
+<h2 id="fi-testing">What to specify and ask the lab to verify</h2>
+<ol>
+<li><strong>Order the complete fastener.</strong> Record the product standard and edition, mechanical-property standard and designation, thread size and pitch, length, finish and any required nut or washer. For example, an M24 × 3 × 200 mm class 8.8 bolt also needs a product standard and finish.</li>
+<li><strong>Check test applicability for the actual geometry.</strong> Ask the lab which finished-fastener tensile, wedge or proof-load tests apply to the steel part, or which ISO 3506-1 tests apply to the stainless part. For short parts, use the applicable method and acceptance criteria specified for the size, class and geometry. A specified torsional breaking test, where applicable, is a controlled mechanical test. A torque reading from tightening a nut measures joint behaviour and cannot establish tensile compliance. <a href="https://www.iso.org/standard/60610.html">ISO 898-1:2013</a> · <a href="https://www.iso.org/standard/70045.html">ISO 3506-1:2020</a> · <a href="https://www.iso.org/standard/27788.html">ISO 16047</a></li>
+<li><strong>Match the report to the delivered lot.</strong> Verify traceability, standard and edition, actual sample size and geometry, method, measured result, units, acceptance limit and disposition. For a reduced-loadability design, ask for the applicable finished-product breaking load and the basis for it. A mill certificate describes the material and cannot by itself establish the mechanical performance of the finished geometry.</li>
+</ol>
+<h2 id="fi-references">Standards and further reading</h2>
+<p>References checked <time datetime="2026-11-10">10 November 2026</time>. Apply the edition specified by your drawing, contract or governing code.</p>
+<ul><li><a href="https://www.iso.org/standard/60610.html">ISO 898-1:2013</a></li>
+<li><a href="https://www.iso.org/standard/79349.html">ISO 898-2:2022</a></li>
+<li><a href="https://www.iso.org/standard/70045.html">ISO 3506-1:2020</a></li>
+<li><a href="https://www.iso.org/standard/70046.html">ISO 3506-2:2020</a></li>
+<li><a href="https://saemobilus.sae.org/standards/j429_201405-mechanical-material-requirements-externally-threaded-fasteners">SAE J429</a></li>
+<li><a href="https://saemobilus.sae.org/standards/j995_201707-mechanical-material-requirements-steel-nuts">SAE J995</a></li>
+<li><a href="https://store.astm.org/f3125_f3125m-26.html">ASTM F3125/F3125M-26</a></li>
+<li><a href="https://store.astm.org/products-services/standards-and-publications/standards/fastener-standards.html">ASTM fastener standards catalog</a></li>
+<li><a href="https://www.aisc.org/aisc/publications/current-standards/rcsc-standard/">RCSC Specification (AISC)</a></li>
+<li><a href="https://www.iso.org/standard/90795.html">ISO 10642:2026</a></li>
+<li><a href="https://www.iso.org/standard/78699.html">ISO 7380-1:2022</a></li>
+<li><a href="https://www.iso.org/standard/34460.html">ISO 4762:2004</a></li>
+<li><a href="https://www.iso.org/standard/75019.html">ISO 4035:2023</a></li>
+<li><a href="https://www.iso.org/standard/27788.html">ISO 16047</a></li></ul>
 </div>
 
-<p class="fi-note">
-*Yield shown as ISO 898-1 minimum lower yield (ReL) for classes ≤6.8 and 0.2% proof stress (Rp0.2) for 8.8 and above.
-†Classes 4.8 and 5.8 have no specified yield in ISO 898-1; figures shown are the nominal values implied by the class designation.
-"Nearest SAE grade" means closest mechanical performance, <strong>not</strong> interchangeability — thread forms (metric vs UNC), dimensional standards, and head markings all differ. For structural bolting, substitution between A325/A490 and metric classes is governed by the project specification, not this table. Stainless classes (A2-70, A4-80 per ISO 3506 / ASTM F593) are covered in the <a href="/tag/standards/">standards index</a>.
-</p>
-
+<!-- ============ 3. POST FOOTER CODE INJECTION (script) ============ -->
 <script>
-(function(){
-  var f=document.getElementById("fi-g-filter"),
-      rows=Array.prototype.slice.call(document.querySelectorAll("#fi-g-table tbody tr")),
-      empty=document.getElementById("fi-g-empty");
-  f.addEventListener("input",function(){
-    var q=f.value.trim().toLowerCase(),shown=0;
-    rows.forEach(function(r){
-      var hit=!q||r.textContent.toLowerCase().indexOf(q)>-1;
-      r.style.display=hit?"":"none";if(hit)shown++;
-    });
-    empty.style.display=shown?"none":"block";
+(() => {
+  const guide = document.getElementById("fi-grade-guide");
+  if (!guide) return;
+
+  const controls = guide.querySelector(".fi-controls");
+  const search = controls.querySelector("[data-fi-search]");
+  const family = controls.querySelector("[data-fi-select]");
+  const status = controls.querySelector(".fi-status");
+  const reset = controls.querySelector("[data-fi-clear]");
+  const normalize = (value) => value.toLowerCase().replace(/[–—−]/g, "-");
+  const tables = Array.from(guide.querySelectorAll("[data-fi-family]"), (section) => ({
+    section,
+    heading: normalize(section.querySelector("h3").textContent),
+    rows: Array.from(section.querySelectorAll("tbody tr"), (row) => ({
+      element: row,
+      text: normalize(Array.from(row.cells, (cell) => cell.textContent).join(" ")),
+    })),
+  }));
+
+  function filter() {
+    const terms = normalize(search.value).trim().split(/\s+/).filter(Boolean);
+    let total = 0;
+    for (const { section, heading, rows } of tables) {
+      const familyMatches = !family.value || family.value === section.dataset.fiFamily;
+      let count = 0;
+      for (const { element, text } of rows) {
+        const matches = familyMatches && terms.every((term) => (heading + " " + text).includes(term));
+        element.hidden = !matches;
+        count += Number(matches);
+      }
+      section.hidden = count === 0;
+      total += count;
+    }
+    status.textContent = total ? `${total} matching ${total === 1 ? "entry" : "entries"}` : "No entries match. Try another search or reset the filters.";
+  }
+
+  search.addEventListener("input", filter);
+  family.addEventListener("change", filter);
+  reset.addEventListener("click", () => {
+    search.value = "";
+    family.value = "";
+    filter();
+    search.focus();
   });
+  filter();
+  controls.hidden = false;
 })();
 </script>
-</div>
